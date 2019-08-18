@@ -1,0 +1,98 @@
+!**************************************************
+! STEP 1 - Get points P0,P1,P2 to build U and V vectors
+!**************************************************
+p0_row=pnt_row+(c_arc-1)                            ! P0,P1,P2 row positions on data data
+p1_row=pnt_row+(c_arc-1)+1
+p2_row=pnt_row+(c_arc-1)+2
+*DIM,pnt_0,ARRAY,3                                  ! Arrays of starting points P0,P1,P2
+pnt_0(1)=tube_data_table(p0_row,1),tube_data_table(p0_row,2),tube_data_table(p0_row,3)
+*DIM,pnt_1,ARRAY,3
+pnt_1(1)=tube_data_table(p1_row,1),tube_data_table(p1_row,2),tube_data_table(p1_row,3)
+*DIM,pnt_2,ARRAY,3
+pnt_2(1)=tube_data_table(p2_row,1),tube_data_table(p2_row,2),tube_data_table(p2_row,3)
+!
+!**************************************************
+! STEP 2 - U,V vectors and dot product of U and V 
+! to get phi angle, angle between U and V
+!**************************************************
+*VOPER,vec_U,pnt_0,SUB,pnt_1                        ! Arrays of U,V vectors
+*VOPER,vec_V,pnt_2,SUB,pnt_1
+vec_U_magnitude=sqrt(vec_U(1,1)**2+vec_U(2,1)**2+vec_U(3,1)**2)     ! Calculate vector magnitudes |U| and |V|
+vec_V_magnitude=sqrt(vec_V(1,1)**2+vec_V(2,1)**2+vec_V(3,1)**2)
+*DIM,dot_mag_U_V,ARRAY,1
+dot_mag_U_V(1)=vec_U_magnitude*vec_V_magnitude
+*MFUN,vec_tran_U,TRAN,vec_U                         ! Transpose arrays to perform calculations
+*MFUN,vec_tran_V,TRAN,vec_V
+*VOPER,dot_U_V,vec_tran_U,DOT,vec_tran_V            ! Dot product U.V
+*VOPER,div_products,dot_U_V,DIV,dot_mag_U_V         ! Division U.V by |U|.|V|
+phi_angle=acos(div_products(1,1))                   ! Phi angle, angle between U and V
+!
+!**************************************************
+! STEP 3 - Calculate points A,B,C to build arc with 
+! s,d distances and U,V,W vectors 
+! pnt_A -> start arc point, pnt_B ->end arc point, 
+! pnt_C -> mid arc point
+!**************************************************
+! Calculate s_dist
+s_dist=pipe_bend_radius/tan(phi_angle/2)
+*DIM,vec_unit_U,ARRAY,3                             ! Normalize vec_U and vec_V vectors
+*DIM,vec_unit_V,ARRAY,3
+vec_unit_U(1)=vec_U(1,1)/vec_U_magnitude,vec_U(2,1)/vec_U_magnitude,vec_U(3,1)/vec_U_magnitude
+vec_unit_V(1)=vec_V(1,1)/vec_V_magnitude,vec_V(2,1)/vec_V_magnitude,vec_V(3,1)/vec_V_magnitude
+*DIM,vec_SU,ARRAY,3                                 ! pnt_A = pnt_1 + vec_SU = pnt_1 + s_dist * vec_U
+vec_SU(1)=s_dist*vec_unit_U(1,1),s_dist*vec_unit_U(2,1),s_dist*vec_unit_U(3,1)
+*VOPER,pnt_A,pnt_1,ADD,vec_SU
+*DIM,vec_SV,ARRAY,3                                 ! pnt_B = pnt_1 + vec_SV = pnt_1 + s_dist * vec_V
+vec_SV(1)=s_dist*vec_unit_V(1,1),s_dist*vec_unit_V(2,1),s_dist*vec_unit_V(3,1)
+*VOPER,pnt_B,pnt_1,ADD,vec_SV
+d_dist=sqrt(s_dist**2+pipe_bend_radius**2)-pipe_bend_radius     ! Calculate d distance
+*VOPER,vec_W,vec_unit_U,ADD,vec_unit_V              ! vec_W = vec_unit_U + vec_unit_V  
+vec_W_magnitude=sqrt(vec_W(1,1)**2+vec_W(2,1)**2+vec_W(3,1)**2)     ! Normalize vec_W
+*DIM,vec_unit_W,ARRAY,3
+vec_unit_W(1)=vec_W(1,1)/vec_W_magnitude,vec_W(2,1)/vec_W_magnitude,vec_W(3,1)/vec_W_magnitude
+*DIM,vec_DW,ARRAY,3                                 ! pnt_C = pnt_1 + vec_DW = pnt_1 + d_dist * vec_W
+vec_DW(1)=d_dist*vec_unit_W(1,1),d_dist*vec_unit_W(2,1),d_dist*vec_unit_W(3,1)
+*VOPER,pnt_C,pnt_1,ADD,vec_DW
+!
+!**************************************************
+! STEP 4 - Draw arc points A, B, C
+!**************************************************
+!
+K,,pnt_A(1,1),pnt_A(2,1),pnt_A(3,1)
+K,,pnt_C(1,1),pnt_C(2,1),pnt_C(3,1)
+K,,pnt_B(1,1),pnt_B(2,1),pnt_B(3,1)
+!
+!**************************************************
+! STEP 5 - Delete vectors & variables
+!**************************************************
+!                                                   ! Variables
+*DEL,p0_row,,nopr
+*DEL,p1_row,,nopr
+*DEL,p2_row,,nopr
+*DEL,vec_U_magnitude,,nopr
+*DEL,vec_V_magnitude,,nopr
+*DEL,vec_W_magnitude,,nopr
+*DEL,phi_angle,,nopr
+*DEL,s_dist,,nopr
+*DEL,d_dist,,nopr
+!                                                   ! Vectors
+*DEL,pnt_0,,nopr
+*DEL,pnt_1,,nopr
+*DEL,pnt_2,,nopr
+*DEL,vec_U,,nopr
+*DEL,vec_V,,nopr
+*DEL,dot_mag_U_V,,nopr
+*DEL,vec_tran_U,,nopr
+*DEL,vec_tran_V,,nopr
+*DEL,dot_U_V,,nopr
+*DEL,div_products,,nopr
+*DEL,vec_unit_U,,nopr
+*DEL,vec_unit_V,,nopr
+*DEL,vec_SU,,nopr
+*DEL,pnt_A,,nopr
+*DEL,vec_SV,,nopr
+*DEL,pnt_B,,nopr
+*DEL,vec_W,,nopr
+*DEL,vec_unit_W,,nopr
+*DEL,vec_DW,,nopr
+*DEL,pnt_C,,nopr

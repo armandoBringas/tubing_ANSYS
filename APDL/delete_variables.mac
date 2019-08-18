@@ -1,0 +1,14 @@
+!**************************************************
+! Delete variables to cleanup project
+!**************************************************
+!
+*DEL,columns,,nopr
+*DEL,c_al,,nopr
+*DEL,c_arc,,nopr
+*DEL,c_ml,,nopr
+*DEL,n_points,,nopr
+*DEL,n_tube_parameters,,nopr
+*DEL,pnt_row,,nopr
+*DEL,rows_number,,nopr
+*DEL,tube_data_rows,,nopr
+*DEL,tube_data_table,,nopr

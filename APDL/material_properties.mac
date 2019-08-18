@@ -1,0 +1,17 @@
+!**************************************************
+! MATERIAL PROPERTIES - Constants
+!**************************************************
+!
+MAT_E = .258e+8                                         ! Young Modulus
+MAT_Nu = 0.3                                            ! Poisson Ration
+MAT_G = MAT_E/(2*(1+MAT_Nu))                            ! Shear Modulus
+MAT_p = 1.042868e-03                                    ! Density
+!
+!**************************************************
+! Material Models
+!**************************************************
+!
+mp,ex,1,MAT_E
+mp,nuxy,1,MAT_Nu
+mp,gxy,1,MAT_G
+mp,dens,1,MAT_p

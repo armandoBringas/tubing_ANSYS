@@ -1,0 +1,31 @@
+!**************************************************
+! Start session setup
+!**************************************************
+!
+FINISH
+/CLEAR, START
+/REPLOT, RESIZE
+/FILNAME, pipe_analysis
+/PREP7
+!
+*AFUN,DEG                                           ! Angular functions in degrees
+!
+!**************************************************
+! Preprocessor
+!**************************************************
+! 
+/inp,pipe_preprocessor,mac
+!
+!**************************************************
+! Solution
+!**************************************************
+!
+/inp,pipe_solution,mac
+!
+!**************************************************
+! Finish session
+!**************************************************
+!
+/inp,delete_variables,mac                           ! Delete variables to clean up project
+!
+/COM, Analysis Done....

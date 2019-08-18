@@ -1,0 +1,24 @@
+!**************************************************
+! BOUNDARY CONDITIONS
+!**************************************************
+!
+/inp,pipe_loads,mac                        ! Read loads as variables
+!
+/SOLU
+DK,1,,,,0,ALL                                       ! Fix in first point
+DK,n_points,,,,0,ALL                                ! Fix in last point
+!
+/PBC,ALL, ,1                                        ! Plot to show applied boundary conditions
+LPLOT                                               
+/ESHAPE,1.0                                         ! Turn on display of element
+!
+!**************************************************
+! MODAL SOLVE
+!**************************************************
+antype,modal                                        ! To perform modal analysis
+modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract
+lumpm,on                                            ! Lumped Mass Approximation
+mxpand,modes,,,yes
+!
+SOLVE                                               ! Solve model
+FINISH

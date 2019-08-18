@@ -1,0 +1,89 @@
+!**************************************************
+! Read data from csv file and convert to table
+!**************************************************
+!
+columns=4                                           ! First column must be skipped, contains the bending point number. Bending point number, X Coordinate, Y Coordinate, Z Coordinate
+/INQUIRE,rows_number,LINES,tube_data,csv 
+tube_data_rows=rows_number-2                        ! First row to skip file header
+*DEL,tube_data_table,,NOPR
+*DIM,tube_data_table,TABLE,tube_data_rows,columns-1,1,STEP,LOAD     ! Table array to contain the bending points data
+*TREAD,tube_data_table,tube_data,csv,,1             ! Read the table and store in an array of parameters
+!
+!**************************************************
+! Tube Parameters
+!**************************************************
+!
+n_tube_parameters = 3                               ! *NOTE: Update this variable as parameters are added to the csv file
+pipe_radius=tube_data_table(1,1)                    ! Pipe Radius
+pipe_diameter=pipe_radius*2                         ! Pipe Diameter
+pipe_bend_radius=tube_data_table(2,1)               ! Pipe Bend Radius
+pipe_wall_thk=tube_data_table(3,1)                  ! Pipe Wall Thickness
+/inp,material_properties,mac                        ! Setup material properties
+!
+!                                                   ! Elements & section difinition
+ET,1,PIPE288                                        ! Straight pipe element
+ET,2,ELBOW290                                       ! Curved pipe element
+SECTYPE,1,PIPE,ctube                                ! Pipe section definition
+SECDATA,pipe_radius,pipe_wall_thk,24                ! Pipe section data
+!
+!**************************************************
+! BUILD GEOMETRY - create pipe axis from 
+! bending coordinates
+!**************************************************
+!
+pnt_row=n_tube_parameters+1                         ! # of row where tube bending coordinates start
+*IF,tube_data_rows-n_tube_parameters,EQ,2,THEN      ! If Pipe is a straight segment
+    K,,tube_data_table(pnt_row,1),tube_data_table(pnt_row,2),tube_data_table(pnt_row,3)     ! Build geometry
+    K,,tube_data_table(pnt_row+1,1),tube_data_table(pnt_row+1,2),tube_data_table(pnt_row+1,3)
+    L,1,2
+*ELSE                                               ! Pipe has two or more bending points
+    n_bndpnts=tube_data_rows-n_tube_parameters      ! Calculate number of bending points, lines and arcs
+    n_lines=n_bndpnts-1
+    n_arcs=n_bndpnts-2
+    K,,tube_data_table(pnt_row,1),tube_data_table(pnt_row,2),tube_data_table(pnt_row,3)     ! First point     
+    *DO,c_arc,1,n_arcs
+        /inp,modeling_arc_points,mac                ! Draw points to build arcs
+        L,(3*(c_arc-1))+1,(3*(c_arc-1))+2           ! Draw straight segments and arcs 
+        LARC,(3*(c_arc-1))+2,(3*(c_arc-1))+4,(3*(c_arc-1))+3,,
+    *ENDDO
+    K,,tube_data_table(tube_data_rows,1),tube_data_table(tube_data_rows,2),tube_data_table(tube_data_rows,3)        ! Last point and straight segment
+    n_points=(n_arcs*3)+2                           ! Total number of points
+    L,n_points-1,n_points
+*ENDIF
+!
+!**************************************************
+! MESH GEOMETRY
+!**************************************************
+!                                                   ! Mesh for straight pipe sections
+TYPE,1
+SECNUM,1
+MAT,1
+!
+FLST,5,n_lines,4,ORDE,n_lines                       ! Select only the straight lines
+*DO,c_ml,1,n_lines
+    FITEM,5,c_ml+(c_ml-1)
+*ENDDO
+LSEL,S,,,P51X 
+CM,lines_straight,LINE
+LESIZE,lines_straight,pipe_radius, , , , , , ,1     ! Divide straight lines into the pipe radius dimension
+LMESH,ALL                                           ! Mesh straight lines
+!
+ALLSEL,ALL,ALL                                      ! Select all entities
+!
+TYPE,2                                              ! Mesh for arc pipe sections
+SECNUM,1
+MAT,1
+!
+FLST,5,n_arcs,4,ORDE,n_arcs                         ! Select only the arc lines                         
+*DO,c_al,1,n_arcs                                   
+    FITEM,5,c_al*2
+*ENDDO
+LSEL,S,,,P51X
+CM,lines_arc,LINE
+LESIZE,lines_arc,pipe_radius/2, , , , , , ,1        ! Divide arc lines into pipe radius diveded by 2
+LMESH,ALL                                           ! Mesh arc lines
+!
+ALLSEL,ALL,ALL                                      ! Select all entities
+!
+! /ESHAPE,1.0                                         ! Turn on display of element
+!

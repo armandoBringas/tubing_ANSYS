@@ -1,0 +1,17 @@
+# Visual Studio Code
+*.code-workspace
+
+# ANSYS APDL
+*.DSP
+*.err
+*.esav
+*.full
+*.lock
+*.log
+*.mlv
+*.mode
+*.rst
+*.stat
+*.out
+*.page
+*.tmp

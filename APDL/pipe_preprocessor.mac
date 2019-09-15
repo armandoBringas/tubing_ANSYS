@@ -1,23 +1,8 @@
 !**************************************************
-! Read data from csv file and convert to table
+! SETUP MATERIAL PROPERTIES 
+! SETUP ELEMENT TYPE
 !**************************************************
 !
-columns=4                                           ! First column must be skipped, contains the bending point number. Bending point number, X Coordinate, Y Coordinate, Z Coordinate
-/INQUIRE,rows_number,LINES,tube_data,csv 
-tube_data_rows=rows_number-2                        ! First row to skip file header
-*DEL,tube_data_table,,NOPR
-*DIM,tube_data_table,TABLE,tube_data_rows,columns-1,1,STEP,LOAD     ! Table array to contain the bending points data
-*TREAD,tube_data_table,tube_data,csv,,1             ! Read the table and store in an array of parameters
-!
-!**************************************************
-! Tube Parameters
-!**************************************************
-!
-n_tube_parameters = 3                               ! *NOTE: Update this variable as parameters are added to the csv file
-pipe_radius=tube_data_table(1,1)                    ! Pipe Radius
-pipe_diameter=pipe_radius*2                         ! Pipe Diameter
-pipe_bend_radius=tube_data_table(2,1)               ! Pipe Bend Radius
-pipe_wall_thk=tube_data_table(3,1)                  ! Pipe Wall Thickness
 /inp,material_properties,mac                        ! Setup material properties
 !
 !                                                   ! Elements & section difinition

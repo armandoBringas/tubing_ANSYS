@@ -11,21 +11,32 @@ FINISH
 *AFUN,DEG                                           ! Angular functions in degrees
 !
 !**************************************************
-! Preprocessor
-!**************************************************
-! 
-/inp,pipe_preprocessor,mac
-!
-!**************************************************
-! Solution
+! Validate initial parameters
 !**************************************************
 !
-/inp,pipe_solution,mac
+valid_parameters=0                                  ! 1 - true, 0 - false
+/inp,read_parameters,mac 
 !
-!**************************************************
-! Finish session
-!**************************************************
-!
-/inp,delete_variables,mac                           ! Delete variables to clean up project
-!
-/COM, Analysis Done....
+*IF,valid_parameters,EQ,1,THEN                      ! If preliminary parameters are valid
+    !**************************************************
+    ! Preprocessor
+    !**************************************************
+    /inp,pipe_preprocessor,mac
+    !
+    !**************************************************
+    ! Solution
+    !**************************************************
+    !
+    /inp,pipe_solution,mac
+    !
+    !**************************************************
+    ! Finish session
+    !**************************************************
+    !
+    /inp,delete_variables,mac                           ! Delete variables to clean up project
+    !
+    /COM, Analysis Done....
+*ELSE
+    /COM, Invalid parameters, re-run first phase...
+*ENDIF
+

@@ -1,8 +1,6 @@
 !**************************************************
 ! BOUNDARY CONDITIONS
-!**************************************************
-!
-/inp,pipe_loads,mac                        ! Read loads as variables
+!**************************************************                       ! Read loads as variables
 !
 /SOLU
 DK,1,,,,0,ALL                                       ! Fix in first point

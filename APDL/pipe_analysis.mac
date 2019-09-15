@@ -14,10 +14,10 @@ FINISH
 ! Validate initial parameters
 !**************************************************
 !
-valid_parameters=0                                  ! 1 - true, 0 - false
-/inp,read_parameters,mac 
+are_valid_parameters=0                                  ! 1 - true, 0 - false
+/inp,pipe_parameters,mac 
 !
-*IF,valid_parameters,EQ,1,THEN                      ! If preliminary parameters are valid
+*IF,are_valid_parameters,EQ,1,THEN                      ! If preliminary parameters are valid
     !**************************************************
     ! Preprocessor
     !**************************************************

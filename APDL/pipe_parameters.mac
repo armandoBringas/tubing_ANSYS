@@ -1,4 +1,10 @@
 !**************************************************
+! Constant values
+!**************************************************
+!
+PI = 3.1415927
+!
+!**************************************************
 ! Read data from csv file and convert to table
 !**************************************************
 !
@@ -20,7 +26,20 @@ pipe_bend_radius=tube_data_table(2,1)               ! Pipe Bend Radius
 pipe_wall_thk=tube_data_table(3,1)                  ! Pipe Wall Thickness
 !
 !**************************************************
-! Pre-validation of Diameter and wall thickness
+! Analysis Loads
 !**************************************************
 !
-! Thickness
+/inp,pipe_loads,mac 
+!
+!**************************************************
+! Pre-validation of Diameter and wall thickness
+! Allowable variation of 10%
+!**************************************************
+!
+! Diameter validation
+pipe_pre_diameter=SQRT((4*volumetric_flow)/(PI*flow_velocity))
+*IF,pipe_pre_diameter*1.010,GT,pipe_diameter,THEN
+    *IF,pipe_pre_val*.9,LT,pipe_diameter,THEN
+        are_valid_parameters=1
+    *ENDIF
+*ENDIF

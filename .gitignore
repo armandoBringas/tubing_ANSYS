@@ -3,15 +3,18 @@
 
 # ANSYS APDL
 *.DSP
+*.emat
 *.err
 *.esav
 *.full
 *.lock
 *.log
 *.mlv
+*.mntr
 *.mode
 *.rst
 *.stat
 *.out
 *.page
 *.tmp
+*ansuitmp

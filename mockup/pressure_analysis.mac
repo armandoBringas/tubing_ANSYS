@@ -13,13 +13,9 @@ Do=1.0             ! outside diameter
 thick=0.1          ! wall thickness
 iPress=1000        ! inside pressure
 !
-Ro=Do/2            ! outside radius
-Ri=Ro-thick        ! inside radius
-!
-R,1,Do,thick       ! real constants, Do and thick
 !
 SECTYPE,1,PIPE,ctube                                ! Pipe section definition
-SECDATA,Ro/2,thick,24                ! Pipe section data
+SECDATA,Do/2,thick,24                ! Pipe section data
 !
 FINISH  
 !

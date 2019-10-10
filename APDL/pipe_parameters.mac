@@ -8,6 +8,18 @@ PI = 3.1415927
 ! Read data from csv file and convert to table
 !**************************************************
 !
+! File structure reference
+! tube_data.csv 
+!
+! n,a,b,c                       ! Default
+! 0,1,2,3                       ! Default
+! 1,0.375,0,0                   ! Pipe Outer Radius
+! 2,0.75,0,0                    ! Pipe Bend Radius
+! 3,0.035,0,0                   ! Pipe Wall Thickness
+! 4,1,0,0                       ! Pipe Material ID
+! 5,1,1,1                       ! Pipe Bending Coordinates X, Y, Z and so on...
+! 
+!
 columns=4                                           ! First column must be skipped, contains the bending point number. Bending point number, X Coordinate, Y Coordinate, Z Coordinate
 /INQUIRE,rows_number,LINES,tube_data,csv 
 tube_data_rows=rows_number-2                        ! First row to skip file header
@@ -19,11 +31,12 @@ tube_data_rows=rows_number-2                        ! First row to skip file hea
 ! Tube Parameters
 !**************************************************
 !
-n_tube_parameters = 3                               ! *NOTE: Update this variable as parameters are added to the csv file
+n_tube_parameters=4                               ! *NOTE: Update this variable as parameters are added to the csv file
 pipe_radius=tube_data_table(1,1)                    ! Pipe Radius
 pipe_diameter=pipe_radius*2                         ! Pipe Diameter
 pipe_bend_radius=tube_data_table(2,1)               ! Pipe Bend Radius
 pipe_wall_thk=tube_data_table(3,1)                  ! Pipe Wall Thickness
+pipe_material_id=tube_data_table(4,1)                  ! Pipe Material ID
 !
 !**************************************************
 ! Analysis Loads

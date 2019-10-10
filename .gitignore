@@ -2,6 +2,7 @@
 *.code-workspace
 
 # ANSYS APDL
+*.bat
 *.DSP
 *.emat
 *.err

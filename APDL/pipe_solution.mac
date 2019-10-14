@@ -6,7 +6,7 @@
 DK,1,,,,0,ALL                                       ! Fix in first point
 DK,n_points,,,,0,ALL                                ! Fix in last point
 !
-/PBC,ALL, ,1                                        ! Plot to show applied boundary conditions
+/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
 LPLOT                                               
 /ESHAPE,1.0                                         ! Turn on display of element
 !
@@ -24,6 +24,12 @@ analysis_to_solve=1
     ! PRESSURE SOLVE
     !**************************************************
     !
+    ESEL,ALL                                             ! Select all elements
+    SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
+    SFE,ALL,2,PRES,,external_pressure                    ! External pressure
+    !
+    SOLVE
+    FINISH
 *ELSEIF,analysis_to_solve,EQ,2,THEN
     !**************************************************
     ! MODAL SOLVE

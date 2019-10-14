@@ -14,7 +14,7 @@ ET,2,ELBOW290                                       ! Curved pipe element
 !     R/t < 50  - Thick wall    KEYOPT(4) = 2
 !     Else      - Thin wall     KEYOPT(4) = 1
 !
-wall_factor=pipe_diameter/pipe_wall_thk
+wall_factor=pipe_radius/pipe_wall_thk
 *IF,pipe_radius,LE,50,THEN
     KEYOPT,1,4,2
 *ELSE

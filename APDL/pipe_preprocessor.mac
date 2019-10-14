@@ -10,14 +10,15 @@ ET,1,PIPE288                                        ! Straight pipe element
 ET,2,ELBOW290                                       ! Curved pipe element
 ! 
 ! Hoop strain treatment K4 (Thick shell / Thin shell)
-! Thin-wall theory 
-!     D/t >= 10    - Thin wall
-!     D/t < 10     - Thick wall
-wall_factor=pipe_diameter/pipe_wall_thk 
-*IF,wall_factor,GE,10,THEN
-    KEYOPT,1,4,1
-*ELSEIF,wall_factor,LE,10,THEN
+! According with ANSYS
+!     R/t < 50  - Thick wall    KEYOPT(4) = 2
+!     Else      - Thin wall     KEYOPT(4) = 1
+!
+wall_factor=pipe_diameter/pipe_wall_thk
+*IF,pipe_radius,LE,50,THEN
     KEYOPT,1,4,2
+*ELSE
+    KEYOPT,1,4,1
 *ENDIF
 !
 ! Section Definition

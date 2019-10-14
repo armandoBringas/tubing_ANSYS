@@ -1,6 +1,6 @@
 !**************************************************
 ! BOUNDARY CONDITIONS
-!**************************************************                       ! Read loads as variables
+!**************************************************                      
 !
 /SOLU
 DK,1,,,,0,ALL                                       ! Fix in first point
@@ -11,12 +11,28 @@ LPLOT
 /ESHAPE,1.0                                         ! Turn on display of element
 !
 !**************************************************
-! MODAL SOLVE
+! SOLVE
 !**************************************************
-antype,modal                                        ! To perform modal analysis
-modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract
-lumpm,on                                            ! Lumped Mass Approximation
-mxpand,modes,,,yes
+! 
+! ANALYSIS TO SOLVE (analysis_to_solve)
+! 1 - pressure
+! 2 - modal
 !
-SOLVE                                               ! Solve model
-FINISH
+analysis_to_solve=1
+*IF,analysis_to_solve,EQ,1,THEN
+    !**************************************************
+    ! PRESSURE SOLVE
+    !**************************************************
+    !
+*ELSEIF,analysis_to_solve,EQ,2,THEN
+    !**************************************************
+    ! MODAL SOLVE
+    !**************************************************
+    antype,modal                                        ! To perform modal analysis
+    modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract
+    lumpm,on                                            ! Lumped Mass Approximation
+    mxpand,modes,,,yes
+    !
+    SOLVE                                               ! Solve model
+    FINISH
+*ENDIF

@@ -3,6 +3,7 @@
 
 # ANSYS APDL
 *.bat
+*.cmds_tmp
 *.DSP
 *.emat
 *.err

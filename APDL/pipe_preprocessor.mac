@@ -5,9 +5,22 @@
 !
 /inp,material_properties,mac                        ! Setup material properties
 !
-!                                                   ! Elements & section difinition
+! Elements definition
 ET,1,PIPE288                                        ! Straight pipe element
 ET,2,ELBOW290                                       ! Curved pipe element
+! 
+! Hoop strain treatment K4 (Thick shell / Thin shell)
+! Thin-wall theory 
+!     D/t >= 10    - Thin wall
+!     D/t < 10     - Thick wall
+wall_factor=pipe_diameter/pipe_wall_thk 
+*IF,wall_factor,GE,10,THEN
+    KEYOPT,1,4,1
+*ELSEIF,wall_factor,LE,10,THEN
+    KEYOPT,1,4,2
+*ENDIF
+!
+! Section Definition
 SECTYPE,1,PIPE,ctube                                ! Pipe section definition
 SECDATA,pipe_radius,pipe_wall_thk,24                ! Pipe section data
 !
@@ -70,5 +83,5 @@ LMESH,ALL                                           ! Mesh arc lines
 !
 ALLSEL,ALL,ALL                                      ! Select all entities
 !
-! /ESHAPE,1.0                                         ! Turn on display of element
+/ESHAPE,1.0                                         ! Turn on display of element
 !

@@ -5,9 +5,30 @@
 !
 /inp,material_properties,mac                        ! Setup material properties
 !
-!                                                   ! Elements & section difinition
+! Elements definition
 ET,1,PIPE288                                        ! Straight pipe element
 ET,2,ELBOW290                                       ! Curved pipe element
+! 
+! Temperature input gradient K1
+!   KEYOPT(1) = 0 - Trough wall
+!   KEYOPT(1) = 1 - Diametral
+KEYOPT,1,1,0
+!
+! Hoop strain treatment K4
+!   KEYOPT(4) = 1 - Thin shell 
+!   KEYOPT(4) = 2 - Thick shell
+! According with ANSYS
+!     R/t < 50  - Thick wall    KEYOPT(4) = 2
+!     Else      - Thin wall     KEYOPT(4) = 1
+!
+wall_factor=pipe_radius/pipe_wall_thk
+*IF,pipe_radius,LE,50,THEN
+    KEYOPT,1,4,2
+*ELSE
+    KEYOPT,1,4,1
+*ENDIF
+!
+! Section Definition
 SECTYPE,1,PIPE,ctube                                ! Pipe section definition
 SECDATA,pipe_radius,pipe_wall_thk,24                ! Pipe section data
 !
@@ -70,5 +91,5 @@ LMESH,ALL                                           ! Mesh arc lines
 !
 ALLSEL,ALL,ALL                                      ! Select all entities
 !
-! /ESHAPE,1.0                                         ! Turn on display of element
+/ESHAPE,1.0                                         ! Turn on display of element
 !

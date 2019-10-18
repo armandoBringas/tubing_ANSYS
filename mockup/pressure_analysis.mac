@@ -1,0 +1,45 @@
+FINISH
+/clear,nostart
+/PREP7  
+
+et,1,PIPE288       ! PIPE16 elements
+n,1,1   
+n,2,11  
+e,1,2   
+mp,ex,1,30000000   ! Steel
+mp,nuxy,1,.3
+!
+Do=1.0             ! outside diameter
+thick=0.1          ! wall thickness
+iPress=1000        ! inside pressure
+!
+!
+SECTYPE,1,PIPE,ctube                                ! Pipe section definition
+SECDATA,Do/2,thick,24                ! Pipe section data
+!
+FINISH  
+!
+/SOLU
+sfe,1,1,pres,,iPress           ! inside pressure
+d,1,all
+solve   
+FINISH  
+!
+/POST1  
+/VIEW,1,1,2,3   
+/ESHAPE,1   
+PLESOL,S,1,0,1.0               ! Plot S1 (circumferential)
+ETABLE,S1,S,1                  ! Component Name Method   
+ETABLE,ls_3,LS, 3              ! S_hoop at zero degrees  
+ETABLE,s1_0,NMISC,41           ! S_1 at zero degrees
+PRETAB,S1,S1_0,LS_3
+! inside stress
+sigma_thick_inside=iPress*(Ro**2+Ri**2)/(Ro**2-Ri**2)  
+! outside stress
+r=Ro   
+sigma_thick_outside=2*iPress*(Ri**2)/(Ro**2-Ri**2)
+! simple circumferential stress calc
+PR_t=ipress*(Ri/thick)
+*status,sigma_thick_inside     ! thick-cylinder inside circumferential stress
+*status,sigma_thick_outside    ! thick-cylinder outside circumferential stress
+*status,PR_t                   ! thin-cylinder circumferential stress

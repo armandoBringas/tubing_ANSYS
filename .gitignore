@@ -3,13 +3,16 @@
 
 # ANSYS APDL
 *.bat
+*.cmds_tmp
 *.DSP
+*.emat
 *.err
 *.esav
 *.full
 *.lock
 *.log
 *.mlv
+*.mntr
 *.mode
 *.rst
 *.stat

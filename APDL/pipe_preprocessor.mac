@@ -9,7 +9,14 @@
 ET,1,PIPE288                                        ! Straight pipe element
 ET,2,ELBOW290                                       ! Curved pipe element
 ! 
-! Hoop strain treatment K4 (Thick shell / Thin shell)
+! Temperature input gradient K1
+!   KEYOPT(1) = 0 - Trough wall
+!   KEYOPT(1) = 1 - Diametral
+KEYOPT,1,1,0
+!
+! Hoop strain treatment K4
+!   KEYOPT(4) = 1 - Thin shell 
+!   KEYOPT(4) = 2 - Thick shell
 ! According with ANSYS
 !     R/t < 50  - Thick wall    KEYOPT(4) = 2
 !     Else      - Thin wall     KEYOPT(4) = 1

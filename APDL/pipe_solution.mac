@@ -16,9 +16,10 @@ LPLOT
 ! 
 ! ANALYSIS TO SOLVE (analysis_to_solve)
 ! 1 - pressure
-! 2 - modal
+! 2 - temperature
+! 3 - modal
 !
-analysis_to_solve=1
+analysis_to_solve=2
 *IF,analysis_to_solve,EQ,1,THEN
     !**************************************************
     ! PRESSURE SOLVE
@@ -30,7 +31,19 @@ analysis_to_solve=1
     !
     SOLVE
     FINISH
+    !
 *ELSEIF,analysis_to_solve,EQ,2,THEN
+    !**************************************************
+    ! TEMPERATURE SOLVE
+    !**************************************************
+    !
+    ESEL,ALL
+    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+    !
+    SOLVE
+    FINISH
+    !
+*ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************
     ! MODAL SOLVE
     !**************************************************
@@ -41,4 +54,5 @@ analysis_to_solve=1
     !
     SOLVE                                               ! Solve model
     FINISH
+    !
 *ENDIF

@@ -1,0 +1,14 @@
+!**************************************************
+! Read data from csv file and convert to table
+!**************************************************
+!
+! File structure reference
+! mission_data.csv 
+!
+! n,a,b,c                       ! Default
+! 0,1,2,3                       ! Default
+! 1,0.375,0,0                   ! Pipe Outer Radius
+! 2,0.75,0,0                    ! Pipe Bend Radius
+! 3,0.035,0,0                   ! Pipe Wall Thickness
+! 4,1,0,0                       ! Pipe Material ID
+! 5,1,1,1                       ! Pipe Bending Coordinates X, Y, Z and so on...

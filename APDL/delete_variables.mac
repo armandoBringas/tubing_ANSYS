@@ -12,3 +12,5 @@
 *DEL,rows_number,,nopr
 *DEL,tube_data_rows,,nopr
 *DEL,tube_data_table,,nopr
+!
+! TODO add deletion of read_mission_data

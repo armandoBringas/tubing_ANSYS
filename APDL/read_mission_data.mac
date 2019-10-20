@@ -1,0 +1,24 @@
+!**************************************************
+! Read data from csv file and convert to table
+!**************************************************
+!
+! File structure reference
+! mission_data.csv 
+!
+! n,a,b,c,d,e                   ! Default
+! 0,1,2,3,4,5                   ! Default
+! 1,100,2.9,-50,59,15           ! Mission data from 1st run and so on...
+!
+! Nomenclature: 
+! a [1] - Internal Pressure
+! b [2] - External Pressure
+! c [3] - Internal Temperature
+! d [4] - External Temperature
+! e [5] - X Axis Load
+!
+mission_columns=6
+/INQUIRE,mission_rows_number,LINES,mission_data,csv
+mission_data_rows=mission_rows_number-2
+*DEL,mission_data_table,,NOPR
+*DIM,mission_data_table,TABLE,mission_data_rows,mission_columns-1,1,STEP,LOAD
+*TREAD,mission_data_table,mission_data,csv,,1

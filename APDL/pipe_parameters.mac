@@ -19,7 +19,6 @@ PI = 3.1415927
 ! 4,1,0,0                       ! Pipe Material ID
 ! 5,1,1,1                       ! Pipe Bending Coordinates X, Y, Z and so on...
 ! 
-!
 columns=4                                           ! First column must be skipped, contains the bending point number. Bending point number, X Coordinate, Y Coordinate, Z Coordinate
 /INQUIRE,rows_number,LINES,tube_data,csv 
 tube_data_rows=rows_number-2                        ! First row to skip file header

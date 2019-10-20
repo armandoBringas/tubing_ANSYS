@@ -1,28 +1,34 @@
 !**************************************************
-! BOUNDARY CONDITIONS
-!**************************************************                      
-!
-/SOLU
-DK,1,,,,0,ALL                                       ! Fix in first point
-DK,n_points,,,,0,ALL                                ! Fix in last point
-!
-/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
-LPLOT                                               
-/ESHAPE,1.0                                         ! Turn on display of element
-!
-!**************************************************
 ! SOLVE
 !**************************************************
 ! 
 ! ANALYSIS TO SOLVE (analysis_to_solve)
 ! 1 - pressure
 ! 2 - temperature
-! 3 - modal
+! 3 - structural
+! 5 - quasi-transient
+! 4 - modal
 !
 analysis_to_solve=2
+!
+!**************************************************
+! BOUNDARY CONDITIONS
+!**************************************************                      
+!
+/SOLU
+DK,1,,,,0,ALL                                       ! Fix in first point
+*IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,5,THEN
+    DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
+*ENDIF
+!
+/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
+LPLOT                                               
+/ESHAPE,1.0                                         ! Turn on display of element
+!
+!
 *IF,analysis_to_solve,EQ,1,THEN
     !**************************************************
-    ! PRESSURE SOLVE
+    ! PRESSURE ANALYSIS SOLVE
     !**************************************************
     !
     ESEL,ALL                                             ! Select all elements
@@ -34,7 +40,7 @@ analysis_to_solve=2
     !
 *ELSEIF,analysis_to_solve,EQ,2,THEN
     !**************************************************
-    ! TEMPERATURE SOLVE
+    ! TEMPERATURE ANALYSIS SOLVE
     !**************************************************
     !
     ESEL,ALL
@@ -45,7 +51,27 @@ analysis_to_solve=2
     !
 *ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************
-    ! MODAL SOLVE
+    ! STRUCTURAL ANALYSIS SOLVE
+    !**************************************************
+    !
+    ! TODO: ADD load in X direction
+    SOLVE
+    FINISH
+    !
+*ELSEIF,analysis_to_solve,EQ,4,THEN
+    !**************************************************
+    ! QUASI-TRANSIENT ANALYSIS SOLVE
+    !**************************************************
+    !
+    ESEL,ALL                                             ! Select all elements
+    SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
+    SFE,ALL,2,PRES,,external_pressure                    ! External pressure
+    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+    ! TODO: ADD load in X direction
+    !
+*ELSEIF,analysis_to_solve,EQ,5,THEN
+    !**************************************************
+    ! MODAL ANALYSIS SOLVE
     !**************************************************
     antype,modal                                        ! To perform modal analysis
     modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract

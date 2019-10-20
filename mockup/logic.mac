@@ -1,0 +1,13 @@
+! ANALYSIS TO SOLVE (analysis_to_solve)
+! 1 - pressure
+! 2 - temperature
+! 3 - structural
+! 4 - modal
+! 5 - transient
+
+analysis_to_solve=5
+test=1
+
+*IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,5,THEN
+    test=0
+*ENDIF

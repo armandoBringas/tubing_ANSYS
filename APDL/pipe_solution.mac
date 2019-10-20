@@ -61,6 +61,7 @@ LPLOT
 *ELSEIF,analysis_to_solve,EQ,4,THEN
     !**************************************************
     ! QUASI-TRANSIENT ANALYSIS SOLVE
+    ! Reads information from mission_data.csv
     !**************************************************
     !
     ESEL,ALL                                             ! Select all elements

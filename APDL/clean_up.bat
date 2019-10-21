@@ -1,15 +1,19 @@
 @echo off
 
+del /S /Q /F *.db
 del /S /Q /F *.DSP
 del /S /Q /F *.emat
 del /S /Q /F *.err
 del /S /Q /F *.esav
 del /S /Q /F *.full
+del /S /Q /F *.ldhi
 del /S /Q /F *.lock
 del /S /Q /F *.log
 del /S /Q /F *.mlv
 del /S /Q /F *.mntr
 del /S /Q /F *.mode
+del /S /Q /F *.r001
+del /S /Q /F *.rdb
 del /S /Q /F *.rst
 del /S /Q /F *.stat
 del /S /Q /F *.out

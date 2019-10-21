@@ -35,6 +35,7 @@ LPLOT
     SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
     SFE,ALL,2,PRES,,external_pressure                    ! External pressure
     !
+    ANTYPE,static                                        ! To perform static analysis
     SOLVE
     FINISH
     !
@@ -43,9 +44,10 @@ LPLOT
     ! TEMPERATURE ANALYSIS SOLVE
     !**************************************************
     !
-    ESEL,ALL
-    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+    ESEL,ALL                                             ! Select all elements
+    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,  ! External and internal temperature
     !
+    ANTYPE,static                                        ! To perform static analysis
     SOLVE
     FINISH
     !
@@ -55,6 +57,9 @@ LPLOT
     !**************************************************
     !
     ! TODO: ADD load in X direction
+    !
+    ANTYPE,static                                        ! To perform static analysis
+    NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
     SOLVE
     FINISH
     !
@@ -64,17 +69,25 @@ LPLOT
     ! Reads information from mission_data.csv
     !**************************************************
     !
-    ESEL,ALL                                             ! Select all elements
-    SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
-    SFE,ALL,2,PRES,,external_pressure                    ! External pressure
-    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
-    ! TODO: ADD load in X direction
+    ANTYPE,static                                        ! To perform static analysis
+    NLGEOM,ON                                            ! Includes large-deflection (large rotation) effects or large strain effects, according to the element type.
+    *DO,c_arc,1,n_arcs
+        ESEL,ALL                                             ! Select all elements
+        SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
+        SFE,ALL,2,PRES,,external_pressure                    ! External pressure
+        BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+        ! TODO: ADD load in X direction
+        !
+        SOLVE
+    *ENDDO
+    !
+    FINISH
     !
 *ELSEIF,analysis_to_solve,EQ,5,THEN
     !**************************************************
     ! MODAL ANALYSIS SOLVE
     !**************************************************
-    antype,modal                                        ! To perform modal analysis
+    ANTYPE,modal                                        ! To perform modal analysis
     modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract
     lumpm,on                                            ! Lumped Mass Approximation
     mxpand,modes,,,yes

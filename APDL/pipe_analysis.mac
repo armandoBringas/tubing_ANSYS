@@ -4,9 +4,9 @@
 !**************************************************
 !
 FINISH
-/CLEAR, START
-/REPLOT, RESIZE
-/FILNAME, pipe_analysis
+/CLEAR,START
+/REPLOT,RESIZE
+/FILNAME,pipe_analysis
 /PREP7
 !
 *AFUN,DEG                                           ! Angular functions in degrees

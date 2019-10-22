@@ -71,13 +71,13 @@ LPLOT
     !
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,ON                                            ! Includes large-deflection (large rotation) effects or large strain effects, according to the element type.
-    *DO,c_arc,1,n_arcs
+    *DO,mission_run,1,mission_runs
         ESEL,ALL                                             ! Select all elements
-        SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
-        SFE,ALL,2,PRES,,external_pressure                    ! External pressure
-        BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+        SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
+        SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
+        BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
         ! TODO: ADD load in X direction
-        !
+        ! x_axis_load=mission_data_table(mission_run,5)
         SOLVE
     *ENDDO
     !

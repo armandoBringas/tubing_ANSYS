@@ -18,7 +18,7 @@
 !
 mission_columns=6
 /INQUIRE,mission_rows_number,LINES,mission_data,csv
-mission_data_rows=mission_rows_number-2
+mission_runs=mission_rows_number-2
 *DEL,mission_data_table,,NOPR
-*DIM,mission_data_table,TABLE,mission_data_rows,mission_columns-1,1,STEP,LOAD
+*DIM,mission_data_table,TABLE,mission_runs,mission_columns-1,1,STEP,LOAD
 *TREAD,mission_data_table,mission_data,csv,,1

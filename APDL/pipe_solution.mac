@@ -56,7 +56,7 @@ LPLOT
     ! STRUCTURAL ANALYSIS SOLVE
     !**************************************************
     !
-    ! TODO: ADD load in X direction
+    FK,n_points,FX,load_in_X
     !
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)

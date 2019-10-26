@@ -4,18 +4,25 @@
 # ANSYS APDL
 *.bat
 *.cmds_tmp
+*.db
 *.DSP
 *.emat
 *.err
 *.esav
 *.full
+*.ldhi
 *.lock
 *.log
 *.mlv
 *.mntr
 *.mode
+*.r001
+*.rdb
 *.rst
 *.stat
 *.out
 *.page
 *.tmp
+
+# 
+!clean_up.bat

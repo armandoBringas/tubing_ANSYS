@@ -1,53 +1,96 @@
 !**************************************************
-! BOUNDARY CONDITIONS
-!**************************************************                      
-!
-/SOLU
-DK,1,,,,0,ALL                                       ! Fix in first point
-DK,n_points,,,,0,ALL                                ! Fix in last point
-!
-/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
-LPLOT                                               
-/ESHAPE,1.0                                         ! Turn on display of element
-!
-!**************************************************
 ! SOLVE
 !**************************************************
 ! 
 ! ANALYSIS TO SOLVE (analysis_to_solve)
 ! 1 - pressure
 ! 2 - temperature
-! 3 - modal
+! 3 - structural
+! 5 - quasi-transient
+! 4 - modal
 !
-analysis_to_solve=2
+analysis_to_solve=3
+!
+!**************************************************
+! BOUNDARY CONDITIONS
+!**************************************************                      
+!
+/SOLU
+DK,1,,,,0,ALL                                       ! Fix in first point
+*IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,5,THEN
+    DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
+*ENDIF
+!
+/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
+LPLOT                                               
+/ESHAPE,1.0                                         ! Turn on display of element
+!
+!
 *IF,analysis_to_solve,EQ,1,THEN
     !**************************************************
-    ! PRESSURE SOLVE
+    ! PRESSURE ANALYSIS SOLVE
     !**************************************************
     !
     ESEL,ALL                                             ! Select all elements
     SFE,ALL,1,PRES,,internal_pressure                    ! Internal pressure
     SFE,ALL,2,PRES,,external_pressure                    ! External pressure
     !
+    ANTYPE,static                                        ! To perform static analysis
     SOLVE
     FINISH
     !
 *ELSEIF,analysis_to_solve,EQ,2,THEN
     !**************************************************
-    ! TEMPERATURE SOLVE
+    ! TEMPERATURE ANALYSIS SOLVE
     !**************************************************
     !
-    ESEL,ALL
-    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,
+    ESEL,ALL                                             ! Select all elements
+    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,  ! External and internal temperature
     !
+    ANTYPE,static                                        ! To perform static analysis
     SOLVE
     FINISH
     !
 *ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************
-    ! MODAL SOLVE
+    ! STRUCTURAL ANALYSIS SOLVE
     !**************************************************
-    antype,modal                                        ! To perform modal analysis
+    !
+    FK,n_points,FX,load_in_X
+    !
+    ANTYPE,static                                        ! To perform static analysis
+    NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
+    SOLVE
+    FINISH
+    /POST1
+    SET,FIRST
+    PLDISP,1
+    !
+*ELSEIF,analysis_to_solve,EQ,4,THEN
+    !**************************************************
+    ! QUASI-TRANSIENT ANALYSIS SOLVE
+    ! Reads information from mission_data.csv
+    !**************************************************
+    !
+    ANTYPE,static                                        ! To perform static analysis
+    NLGEOM,ON                                            ! Includes large-deflection (large rotation) effects or large strain effects, according to the element type.
+    *DO,mission_run,1,mission_runs
+        ESEL,ALL                                             ! Select all elements
+        SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
+        SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
+        BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
+        ! TODO: ADD load in X direction
+        ! x_axis_load=mission_data_table(mission_run,5)
+        SOLVE
+    *ENDDO
+    !
+    FINISH
+    !
+*ELSEIF,analysis_to_solve,EQ,5,THEN
+    !**************************************************
+    ! MODAL ANALYSIS SOLVE
+    !**************************************************
+    ANTYPE,modal                                        ! To perform modal analysis
     modopt,lanb,modes                                   ! Mode-extraction method, used Block Lanczos with # modes to extract
     lumpm,on                                            ! Lumped Mass Approximation
     mxpand,modes,,,yes

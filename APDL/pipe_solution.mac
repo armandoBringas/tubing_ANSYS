@@ -6,8 +6,8 @@
 ! 1 - pressure
 ! 2 - temperature
 ! 3 - structural
-! 5 - quasi-transient
-! 4 - modal
+! 4 - quasi-transient
+! 5 - modal
 !
 analysis_to_solve=3
 !
@@ -16,14 +16,14 @@ analysis_to_solve=3
 !**************************************************                      
 !
 /SOLU
-DK,1,,,,0,ALL                                       ! Fix in first point
+DK,1,,,,0,ALL                                            ! Fix in first point
 *IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,5,THEN
-    DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
+    DK,n_points,,,,0,ALL                                 ! Fix in last point if analysis is not structural or transient
 *ENDIF
 !
-/PBC,ALL,,1                                         ! Plot to show applied boundary conditions
+/PBC,ALL,,1                                              ! Plot to show applied boundary conditions
 LPLOT                                               
-/ESHAPE,1.0                                         ! Turn on display of element
+/ESHAPE,1.0                                              ! Turn on display of element
 !
 !
 *IF,analysis_to_solve,EQ,1,THEN
@@ -56,7 +56,7 @@ LPLOT
     ! STRUCTURAL ANALYSIS SOLVE
     !**************************************************
     !
-    FK,n_points,FX,load_in_X
+    FK,n_points,FX,load_in_X                             ! Load in X
     !
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
@@ -72,19 +72,21 @@ LPLOT
     ! Reads information from mission_data.csv
     !**************************************************
     !
+    /inp,read_mission_data,mac
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,ON                                            ! Includes large-deflection (large rotation) effects or large strain effects, according to the element type.
-    *DO,mission_run,1,mission_runs
-        ESEL,ALL                                             ! Select all elements
-        SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
-        SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
-        BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
-        ! TODO: ADD load in X direction
-        ! x_axis_load=mission_data_table(mission_run,5)
+    *DO,mission_run,1,1
+        ! ESEL,ALL                                             ! Select all elements
+        ! SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
+        ! SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
+        ! BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
+        FK,n_points,FX,mission_data_table(mission_run,5)       ! Load in X
         SOLVE
     *ENDDO
     !
     FINISH
+    /POST1
+    !SET,FIRST
     !
 *ELSEIF,analysis_to_solve,EQ,5,THEN
     !**************************************************

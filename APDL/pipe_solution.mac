@@ -9,7 +9,7 @@
 ! 5 - quasi-transient
 ! 4 - modal
 !
-analysis_to_solve=2
+analysis_to_solve=3
 !
 !**************************************************
 ! BOUNDARY CONDITIONS
@@ -62,6 +62,9 @@ LPLOT
     NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
     SOLVE
     FINISH
+    /POST1
+    SET,FIRST
+    PLDISP,1
     !
 *ELSEIF,analysis_to_solve,EQ,4,THEN
     !**************************************************

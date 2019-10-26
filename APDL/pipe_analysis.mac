@@ -28,13 +28,13 @@ are_valid_parameters=0                                  ! 1 - true, 0 - false
     ! Solution
     !**************************************************
     !
-    !/inp,pipe_solution,mac
+    /inp,pipe_solution,mac
     !
     !**************************************************
     ! Finish session
     !**************************************************
     !
-    !/inp,delete_variables,mac                           ! Delete variables to clean up project
+    /inp,delete_variables,mac                           ! Delete variables to clean up project
     !
     /COM, Analysis Done....
 *ELSE

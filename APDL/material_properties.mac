@@ -33,9 +33,9 @@
     MAT_G = 3760
 *ELSEIF,pipe_material_id,EQ,3,THEN
     MAT_d = 0.0975
-    MAT_E = 40000
+    MAT_E = 10000000
     MAT_Nu = 0.33
-    MAT_G = 3770
+    MAT_G = 3770000
 *ELSEIF,pipe_material_id,EQ,4,THEN
     MAT_d = 0.0979
     MAT_E = 13800

@@ -9,6 +9,7 @@ external_pressure=8.5                               ! external pressure
 internal_temperature=0                              ! internal temperature
 external_temperature=275                            ! external temperature
 load_in_X=17.5                                      ! X load
+load_in_Y=-22.5                                      ! Y load
 !
 !**************************************************
 ! Vibration analysis 

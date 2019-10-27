@@ -15,7 +15,7 @@ FINISH
 ! Validate initial parameters
 !**************************************************
 !
-are_valid_parameters=0                                  ! 1 - true, 0 - false
+are_valid_parameters=1                                  ! 1 - true, 0 - false
 /inp,pipe_parameters,mac 
 !
 *IF,are_valid_parameters,EQ,1,THEN                      ! If preliminary parameters are valid

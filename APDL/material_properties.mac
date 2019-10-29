@@ -15,37 +15,37 @@
 !
 ! Material Variables
 !
-! Variable      Description
-! MAT_E         Young Modulus
-! MAT_Nu        Poisson Ration
-! MAT_G         Shear Modulus
-! MAT_d         Density
+! Variable      Description         Units
+! MAT_E         Young Modulus       [psi]
+! MAT_Nu        Poisson Ration      Dimensionless
+! MAT_G         Shear Modulus       [psi]
+! MAT_d         Density             [lb/in3]
 !
 *IF,pipe_material_id,EQ,1,THEN
     MAT_d = 0.10000
-    MAT_E = 42100
+    MAT_E = 10600000
     MAT_Nu = 0.33
-    MAT_G = 4060
+    MAT_G = 4060000
 *ELSEIF,pipe_material_id,EQ,2,THEN
     MAT_d = 0.0968
-    MAT_E = 13000
+    MAT_E = 10200000
     MAT_Nu = 0.33
-    MAT_G = 3760
+    MAT_G = 3760000
 *ELSEIF,pipe_material_id,EQ,3,THEN
     MAT_d = 0.0975
-    MAT_E = 40000
+    MAT_E = 10000000
     MAT_Nu = 0.33
-    MAT_G = 3770
+    MAT_G = 3770000
 *ELSEIF,pipe_material_id,EQ,4,THEN
     MAT_d = 0.0979
-    MAT_E = 13800
+    MAT_E = 10000000
     MAT_Nu = 0.33
-    MAT_G = 3770
+    MAT_G = 3770000
 *ELSEIF,pipe_material_id,EQ,5,THEN
     MAT_d = 0.0986
-    MAT_E = 21000
+    MAT_E = 10000000
     MAT_Nu = 0.33
-    MAT_G = 0
+    MAT_G = 3630000
 *ENDIF
 !
 !**************************************************

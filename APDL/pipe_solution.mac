@@ -6,8 +6,8 @@
 ! 1 - pressure
 ! 2 - temperature
 ! 3 - structural
-! 5 - quasi-transient
-! 4 - modal
+! 4 - quasi-transient
+! 5 - modal
 !
 analysis_to_solve=3
 !
@@ -17,7 +17,7 @@ analysis_to_solve=3
 !
 /SOLU
 DK,1,,,,0,ALL                                       ! Fix in first point
-*IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,5,THEN
+*IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,4,THEN
     DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
 *ENDIF
 !
@@ -79,8 +79,7 @@ LPLOT
         SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
         SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
         BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
-        ! TODO: ADD load in X direction
-        ! x_axis_load=mission_data_table(mission_run,5)
+        FK,n_points,FX,mission_data_table(mission_run,5)     ! Load in X
         SOLVE
     *ENDDO
     !

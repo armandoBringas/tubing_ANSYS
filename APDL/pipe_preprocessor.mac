@@ -29,8 +29,8 @@ wall_factor=pipe_radius/pipe_wall_thk
 *ENDIF
 !
 ! Section Definition
-SECTYPE,1,PIPE,ctube                                ! Pipe section definition
-SECDATA,pipe_radius,pipe_wall_thk,24                ! Pipe section data
+SECTYPE,1,PIPE,ctube                                ! Pipe section definition              
+SECDATA,pipe_radius,pipe_wall_thk,24,0,1,       2,0,0,  ! Pipe section data
 !
 !**************************************************
 ! BUILD GEOMETRY - create pipe axis from 

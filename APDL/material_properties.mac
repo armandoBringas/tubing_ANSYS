@@ -1,9 +1,16 @@
 !**************************************************
-! MATERIAL PROPERTIES - Constants
-! This came from material constant selection
+! MATERIAL DATABASE
 !**************************************************
 !
-! Material Reference ID Codes
+! ANSYS ID      Description
+! 1             Tube Material
+! 2             Fluid Application
+!
+!**************************************************
+! TUBE MATERIAL
+!**************************************************
+!
+! Tube Material Reference ID Codes
 !
 ! ID    Material 
 ! 1     Aluminum 2024-T3
@@ -49,7 +56,7 @@
 *ENDIF
 !
 !**************************************************
-! Material Models
+! Setup Tube material as ID 1
 !**************************************************
 !
 mp,dens,1,MAT_d
@@ -57,3 +64,29 @@ mp,ex,1,MAT_E
 mp,nuxy,1,MAT_Nu
 mp,gxy,1,MAT_G
 !
+!**************************************************
+! FLUID APPLICATION
+!**************************************************
+!
+! Fluid Application Reference ID Codes
+!
+! ID    Application 
+! 1     Water
+! 2     Oil
+! 3     Fuel
+!
+fluid_application_id=3
+!
+*IF,pipe_material_id,EQ,1,THEN
+    MAT_d_2 = 0.03611111
+*ELSEIF,pipe_material_id,EQ,2,THEN
+    MAT_d_2 = 0.0316258314168
+*ELSEIF,pipe_material_id,EQ,3,THEN
+    MAT_d_2 = 0.0289018336
+*ENDIF
+!
+!**************************************************
+! Setup Fluid Application material as ID 2
+!**************************************************
+!
+mp,dens,2,MAT_d_2

@@ -56,7 +56,7 @@ LPLOT
     ! STRUCTURAL ANALYSIS SOLVE
     !**************************************************
     !
-    FK,n_points,FX,load_in_X
+    FK,n_points,FX,-load_in_X
     !
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
@@ -64,7 +64,9 @@ LPLOT
     FINISH
     /POST1
     SET,FIRST
-    PLDISP,1
+    /EFACET,1
+    PLNSOL, S,EQV, 0,1.0
+    /GOP
     !
 *ELSEIF,analysis_to_solve,EQ,4,THEN
     !**************************************************

@@ -9,7 +9,7 @@
 ! 4 - quasi-transient
 ! 5 - modal
 !
-analysis_to_solve=3
+analysis_to_solve=2
 !
 !**************************************************
 ! BOUNDARY CONDITIONS
@@ -45,11 +45,24 @@ LPLOT
     !**************************************************
     !
     ESEL,ALL                                             ! Select all elements
-    BFE,ALL,TEMP,1,external_temperature,internal_temperature,,  ! External and internal temperature
     !
-    ANTYPE,static                                        ! To perform static analysis
-    SOLVE
-    FINISH
+    CMSEL,S,lines_straight                               ! Select only straight lines
+    ALLSEL,BELOW,LINE
+    BFE,ALL,TEMP,1,internal_temperature,external_temperature      ! Apply internal and external temperature
+    !
+    ALLSEL,ALL,ALL
+    !
+    *IF,n_lines,NE,1,THEN
+        CMSEL,S,lines_arc                                ! Select only arc lines
+        ALLSEL,BELOW,LINE
+        BFE,ALL,TEMP,1,external_temperature,internal_temperature
+    *ENDIF
+    !
+    ! BFE,ALL,TEMP,1,external_temperature,internal_temperature,,  ! External and internal temperature
+    !
+    ! ANTYPE,static                                        ! To perform static analysis
+    ! SOLVE
+    ! FINISH
     !
 *ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************

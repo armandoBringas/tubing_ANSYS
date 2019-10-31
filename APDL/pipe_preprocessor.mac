@@ -95,5 +95,3 @@ ALLSEL,ALL,ALL                                      ! Select all entities
     ALLSEL,ALL,ALL                                  ! Select all entities
 *ENDIF
 !
-/ESHAPE,1.0                                         ! Turn on display of element
-!

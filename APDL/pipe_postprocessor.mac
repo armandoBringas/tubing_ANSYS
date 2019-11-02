@@ -1,0 +1,18 @@
+!**************************************************
+! POST-PROCESS RESULTS
+!**************************************************
+! 
+! ANALYSIS TO SOLVE (analysis_to_solve) REFERENCE
+! 1 - pressure
+! 2 - temperature
+! 3 - structural
+! 4 - quasi-transient
+! 5 - modal
+!
+*IF,analysis_to_solve,NE,5,THEN
+    /POST1
+    SET,FIRST
+    /EFACET,1
+    PLNSOL, S,EQV, 0,1.0
+    /GOP                           
+*ENDIF

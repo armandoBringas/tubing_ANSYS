@@ -64,14 +64,9 @@ LPLOT
     ! /pbf,temp,,1
     ! eplo
     !
+    ANTYPE,static                                        ! To perform static analysis
     SOLVE
     FINISH
-    !
-    /POST1
-    SET,FIRST
-    /EFACET,1
-    PLNSOL, S,EQV, 0,1.0
-    /GOP
     !
 *ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************
@@ -84,11 +79,6 @@ LPLOT
     NLGEOM,OFF                                           ! Ignores large-deflection effects (that is, a small-deflection analysis is specified)
     SOLVE
     FINISH
-    /POST1
-    SET,FIRST
-    /EFACET,1
-    PLNSOL, S,EQV, 0,1.0
-    /GOP
     !
 *ELSEIF,analysis_to_solve,EQ,4,THEN
     !**************************************************
@@ -103,6 +93,23 @@ LPLOT
         SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
         SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
         BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
+        !
+        ALLSEL,ALL,ALL                                       ! Select all elements
+        !
+        CMSEL,S,lines_straight                               ! Select only straight lines
+        ALLSEL,BELOW,LINE
+        BFE,ALL,TEMP,1,mission_data_table(mission_run,3),mission_data_table(mission_run,4)      ! Apply internal and external temperature
+        !
+        ALLSEL,ALL,ALL
+        !
+        *IF,n_lines,NE,1,THEN
+            CMSEL,S,lines_arc                                ! Select only arc lines
+            ALLSEL,BELOW,LINE
+            BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3)
+        *ENDIF
+        !
+        ALLSEL,ALL,ALL
+        !
         FK,n_points,FX,mission_data_table(mission_run,5)     ! Load in X
         SOLVE
     *ENDDO

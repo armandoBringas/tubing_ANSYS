@@ -30,7 +30,7 @@ wall_factor=pipe_radius/pipe_wall_thk
 !
 ! Section Definition
 SECTYPE,1,PIPE,ctube                                ! Pipe section definition              
-SECDATA,pipe_radius,pipe_wall_thk,24,0,1,       2,0,0,  ! Pipe section data
+SECDATA,pipe_radius,pipe_wall_thk,24,0,1,       2,0,0,  ! Pipe section data and definition of fluid application
 !
 !**************************************************
 ! BUILD GEOMETRY - create pipe axis from 

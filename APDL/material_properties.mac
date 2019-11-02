@@ -34,27 +34,36 @@
     MAT_E = 10600000
     MAT_Nu = 0.33
     MAT_G = 4060000
+    !Temperature @68.0°F - 212°F
+    MAT_CTE = 0.0000129     
 *ELSEIF,pipe_material_id,EQ,2,THEN
     MAT_d = 0.0968
     MAT_E = 10200000
     MAT_Nu = 0.33
     MAT_G = 3760000
+    !Temperature @68.0°F - 212°F
+    MAT_CTE = 0.0000132    
 *ELSEIF,pipe_material_id,EQ,3,THEN
     MAT_d = 0.0975
     MAT_E = 10000000
     MAT_Nu = 0.33
     MAT_G = 3770000
-    MAT_CTE = 0.000014
+    !Temperature @68.0°F - 212°F
+    MAT_CTE = 0.0000131                             
 *ELSEIF,pipe_material_id,EQ,4,THEN
     MAT_d = 0.0979
     MAT_E = 10000000
     MAT_Nu = 0.33
     MAT_G = 3770000
+    !Temperature @68.0°F - 212°F
+    MAT_CTE = 0.0000131  
 *ELSEIF,pipe_material_id,EQ,5,THEN
     MAT_d = 0.0986
     MAT_E = 10000000
     MAT_Nu = 0.33
     MAT_G = 3630000
+    !Temperature @68.0°F - 212°F
+    MAT_CTE = 0.0000129
 *ENDIF
 !
 !**************************************************

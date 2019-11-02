@@ -9,7 +9,7 @@
 ! 4 - quasi-transient
 ! 5 - modal
 !
-analysis_to_solve=2
+analysis_to_solve=1
 !
 !**************************************************
 ! BOUNDARY CONDITIONS
@@ -92,7 +92,6 @@ LPLOT
         ESEL,ALL                                             ! Select all elements
         SFE,ALL,1,PRES,,mission_data_table(mission_run,1)    ! Internal pressure
         SFE,ALL,2,PRES,,mission_data_table(mission_run,2)    ! External pressure
-        BFE,ALL,TEMP,1,mission_data_table(mission_run,4),mission_data_table(mission_run,3),,    ! External and internal temperature
         !
         ALLSEL,ALL,ALL                                       ! Select all elements
         !

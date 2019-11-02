@@ -27,6 +27,7 @@
 ! MAT_Nu        Poisson Ration      Dimensionless
 ! MAT_G         Shear Modulus       [psi]
 ! MAT_d         Density             [lb/in3]
+! MAT_CTE       CTE Linear          [in/in*°F] 
 !
 *IF,pipe_material_id,EQ,1,THEN
     MAT_d = 0.10000
@@ -43,6 +44,7 @@
     MAT_E = 10000000
     MAT_Nu = 0.33
     MAT_G = 3770000
+    MAT_CTE = 0.000014
 *ELSEIF,pipe_material_id,EQ,4,THEN
     MAT_d = 0.0979
     MAT_E = 10000000
@@ -63,6 +65,13 @@ mp,dens,1,MAT_d
 mp,ex,1,MAT_E
 mp,nuxy,1,MAT_Nu
 mp,gxy,1,MAT_G
+!
+! SETUP CTE
+!
+MPTEMP,,,,,,,,  
+MPTEMP,1,0  
+UIMP,1,REFT,,,  
+MPDATA,ALPX,1,,MAT_CTE 
 !
 !**************************************************
 ! FLUID APPLICATION

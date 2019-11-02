@@ -58,11 +58,20 @@ LPLOT
         BFE,ALL,TEMP,1,external_temperature,internal_temperature
     *ENDIF
     !
-    ! BFE,ALL,TEMP,1,external_temperature,internal_temperature,,  ! External and internal temperature
+    ALLSEL,ALL,ALL
     !
-    ! ANTYPE,static                                        ! To perform static analysis
-    ! SOLVE
-    ! FINISH
+    ! /eshape,1                                            ! Plot temperature distribution through wall
+    ! /pbf,temp,,1
+    ! eplo
+    !
+    SOLVE
+    FINISH
+    !
+    /POST1
+    SET,FIRST
+    /EFACET,1
+    PLNSOL, S,EQV, 0,1.0
+    /GOP
     !
 *ELSEIF,analysis_to_solve,EQ,3,THEN
     !**************************************************

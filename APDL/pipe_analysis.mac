@@ -9,7 +9,8 @@ FINISH
 /FILNAME,pipe_analysis
 /PREP7
 !
-*AFUN,DEG                                           ! Angular functions in degrees
+*AFUN,DEG                                               ! Angular functions in degrees
+TOFFST,460                                              ! Setup temperature in Farenheit "Preprocessor->Material Props->Temperature Units"
 !
 !**************************************************
 ! Validate initial parameters

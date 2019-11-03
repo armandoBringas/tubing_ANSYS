@@ -9,7 +9,7 @@
 ! 4 - quasi-transient
 ! 5 - modal
 !
-analysis_to_solve=1
+analysis_to_solve=4
 !
 !**************************************************
 ! BOUNDARY CONDITIONS
@@ -18,7 +18,7 @@ analysis_to_solve=1
 /SOLU
 DK,1,,,,0,ALL                                       ! Fix in first point
 *IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,4,THEN
-    DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
+    ! DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
 *ENDIF
 !
 /PBC,ALL,,1                                         ! Plot to show applied boundary conditions
@@ -86,6 +86,8 @@ LPLOT
     ! Reads information from mission_data.csv
     !**************************************************
     !
+    /inp,read_mission_data,mac                           ! Read mission data
+    !
     ANTYPE,static                                        ! To perform static analysis
     NLGEOM,ON                                            ! Includes large-deflection (large rotation) effects or large strain effects, according to the element type.
     *DO,mission_run,1,mission_runs
@@ -109,7 +111,7 @@ LPLOT
         !
         ALLSEL,ALL,ALL
         !
-        FK,n_points,FX,mission_data_table(mission_run,5)     ! Load in X
+        FK,n_points,FX,-(mission_data_table(mission_run,5))     ! Load in X
         SOLVE
     *ENDDO
     !

@@ -2,13 +2,21 @@
 ! Preliminary Requirements
 !**************************************************
 !
+! ANALYSIS TO SOLVE (analysis_to_solve) in pipe_solution.mac
+! 1 - pressure
+! 2 - temperature
+! 3 - structural
+! 4 - quasi-transient
+! 5 - modal
+analysis_to_solve=5                                 ! Analysis to solve
+!
 volumetric_flow=13.9162                             ! Q - volumetric flow
 flow_velocity=31.5                                  ! V - flow velocity
-internal_pressure=1000                              ! internal pressure
-external_pressure=2.9                               ! external pressure
-internal_temperature=32                             ! internal temperature
-external_temperature=69.8                           ! external temperature
-load_in_X=15                                        ! X load
+internal_pressure=1500                              ! internal pressure
+external_pressure=14                                ! external pressure
+internal_temperature=100                            ! internal temperature
+external_temperature=104                            ! external temperature
+load_in_X=12.5                                        ! X load
 !
 !**************************************************
 ! Vibration analysis 

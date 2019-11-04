@@ -88,10 +88,10 @@ MPDATA,ALPX,1,,MAT_CTE
 !
 ! Fluid Application Reference ID Codes
 !
-! ID    Application 
-! 1     Water
-! 2     Oil
-! 3     Fuel
+! ID    Application     Units 
+! 1     Water           [lb/in3]
+! 2     Oil             [lb/in3]
+! 3     Fuel            [lb/in3]
 !
 fluid_application_id=3
 !
@@ -100,7 +100,7 @@ fluid_application_id=3
 *ELSEIF,pipe_material_id,EQ,2,THEN
     MAT_d_2 = 0.0316258314168
 *ELSEIF,pipe_material_id,EQ,3,THEN
-    MAT_d_2 = 0.0289018336
+    MAT_d_2 = 0.02904634
 *ENDIF
 !
 !**************************************************

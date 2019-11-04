@@ -14,5 +14,16 @@
     SET,FIRST
     /EFACET,1
     PLNSOL, S,EQV, 0,1.0
-    /GOP                           
+    /GOP
+    !
+    /REP,FAST    
+    /RGB,INDEX, 0, 0, 0,15 
+    /REPLOT 
+    !
+    /REP,FAST   
+    /VIEW,1,1,1,1   
+    /ANG,1  
+    /REP,FAST 
+
+!                           
 *ENDIF

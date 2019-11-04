@@ -2,14 +2,12 @@
 ! SOLVE
 !**************************************************
 ! 
-! ANALYSIS TO SOLVE (analysis_to_solve)
+! ANALYSIS TO SOLVE (analysis_to_solve) from pipe_loads.mac
 ! 1 - pressure
 ! 2 - temperature
 ! 3 - structural
 ! 4 - quasi-transient
 ! 5 - modal
-!
-analysis_to_solve=4
 !
 !**************************************************
 ! BOUNDARY CONDITIONS
@@ -18,7 +16,7 @@ analysis_to_solve=4
 /SOLU
 DK,1,,,,0,ALL                                       ! Fix in first point
 *IF,analysis_to_solve,NE,3,AND,analysis_to_solve,NE,4,THEN
-    ! DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
+    DK,n_points,,,,0,ALL                            ! Fix in last point if analysis is not structural or transient
 *ENDIF
 !
 /PBC,ALL,,1                                         ! Plot to show applied boundary conditions
